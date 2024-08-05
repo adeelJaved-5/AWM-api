@@ -1,8 +1,13 @@
-const { PaintModel} = require("../../models");
+const { PaintModel } = require("../../models");
 
 exports.storePaint = async ({ hitlineClasses }) => {
   try {
-    const paint = new PaintModel({ hitlineClasses });
+    let paint = await PaintModel.findOne();
+    if (paint) {
+      paint.hitlineClasses = hitlineClasses;
+    } else {
+      paint = new PaintModel({ hitlineClasses });
+    }
     await paint.save();
     return paint;
   } catch (error) {
