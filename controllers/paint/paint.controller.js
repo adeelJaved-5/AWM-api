@@ -5,24 +5,17 @@ exports.storePaint = async ({ hitlineClasses }) => {
     console.log(hitlineClasses);
     let paint = await PaintModel.findOne();
     if (paint) {
-      paint.hitlineClasses = hitlineClasses;
+      paint = await PaintModel.findOneAndUpdate(
+        { _id: paint._id },
+        { $set: { hitlineClasses } },
+        { new: true }
+      );
     } else {
       paint = new PaintModel({ hitlineClasses });
+      await paint.save();
     }
-    await paint.save();
     return paint;
   } catch (error) {
-    if (error.name === 'VersionError') {
-      // Retry mechanism
-      let paint = await PaintModel.findOne();
-      if (paint) {
-        paint.hitlineClasses = hitlineClasses;
-      } else {
-        paint = new PaintModel({ hitlineClasses });
-      }
-      await paint.save();
-      return paint;
-    }
     throw new Error(error);
   }
 };

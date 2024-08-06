@@ -6,7 +6,7 @@ const PaintModel = new Schema(
   {
     hitlineClasses: [String],
   },
-  { timestamps: true }
+  { versionKey: false }
 );
 
 module.exports = mongoose.model("Paint", PaintModel);
