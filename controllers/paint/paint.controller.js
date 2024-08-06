@@ -1,6 +1,6 @@
 const { PaintModel } = require("../../models");
 
-const storePaint = async ({ hitlineClasses }) => {
+exports.storePaint = async ({ hitlineClasses }) => {
   try {
     console.log(hitlineClasses);
     let paint = await PaintModel.findOne();
