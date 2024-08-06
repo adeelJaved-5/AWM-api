@@ -22,7 +22,7 @@ exports.storePaint = async ({ hitlineClasses }) => {
 
 exports.getPaint = async () => {
   try {
-    const paint = await PaintModel.find();
+    const paint = await PaintModel.findOne();
     return paint;
   } catch (error) {
     throw new Error(error);
