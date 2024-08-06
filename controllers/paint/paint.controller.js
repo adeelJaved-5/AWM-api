@@ -2,6 +2,7 @@ const { PaintModel } = require("../../models");
 
 exports.storePaint = async ({ hitlineClasses }) => {
   try {
+    console.log(hitlineClasses);
     let paint = await PaintModel.findOne();
     if (paint) {
       paint.hitlineClasses = hitlineClasses;
