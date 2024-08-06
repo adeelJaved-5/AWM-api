@@ -1,6 +1,6 @@
 const { PaintModel } = require("../../models");
 
-exports.storePaint = async ({ hitlineClasses }) => {
+const storePaint = async ({ hitlineClasses }) => {
   try {
     console.log(hitlineClasses);
     let paint = await PaintModel.findOne();
@@ -12,6 +12,17 @@ exports.storePaint = async ({ hitlineClasses }) => {
     await paint.save();
     return paint;
   } catch (error) {
+    if (error.name === 'VersionError') {
+      // Retry mechanism
+      let paint = await PaintModel.findOne();
+      if (paint) {
+        paint.hitlineClasses = hitlineClasses;
+      } else {
+        paint = new PaintModel({ hitlineClasses });
+      }
+      await paint.save();
+      return paint;
+    }
     throw new Error(error);
   }
 };
