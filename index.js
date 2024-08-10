@@ -4,8 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const logger = require("morgan");
-// var https = require("https");
-// var fs = require("fs");
+var https = require("https");
+var fs = require("fs");
 
 const { MONGO_URL, PORT } = require("./keys");
 
@@ -26,12 +26,12 @@ app.use(
 
 app.use("/", require("./routes"));
 
-// var options = {
-// 	key: fs.readFileSync('/var/www/privkey.pem'),
-// 	cert: fs.readFileSync('/var/www/fullchain.pem'),
-// };
+var options = {
+	key: fs.readFileSync('/var/www/privkey.pem'),
+	cert: fs.readFileSync('/var/www/fullchain.pem'),
+};
 
 app.listen(PORT, () => {
   console.log(`Started listening at port ${PORT}`);
 });
-// https.createServer(options, app).listen(3000);
+https.createServer(options, app).listen(3000);
