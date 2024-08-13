@@ -31,7 +31,7 @@ var options = {
 	cert: fs.readFileSync('/var/www/fullchain.pem'),
 };
 
-app.listen(PORT, () => {
-  console.log(`Started listening at port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Started listening at port ${PORT}`);
+// });
 https.createServer(options, app).listen(3000);

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const PaintModel = new Schema(
   {
-    hitlineClasses: [String],
+    hitlineClasses: String,
   },
   { versionKey: false }
 );
