@@ -14,7 +14,7 @@ exports.storePaint = async ({ hitlineClasses }) => {
       paint = new PaintModel({ hitlineClasses });
       await paint.save();
     }
-    return paint;
+    return {status: "success", message: "Paint updated successfully"};
   } catch (error) {
     throw new Error(error);
   }
