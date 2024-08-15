@@ -2,12 +2,12 @@ const { PaintModel } = require("../../models");
 
 exports.storePaint = async ({ hitlineClasses }) => {
   try {
-    console.log(hitlineClasses);
     let paint = await PaintModel.findOne();
     if (paint) {
+      const mergedHitlineClasses = [...new Set([...paint.hitlineClasses, ...hitlineClasses])];
       paint = await PaintModel.findOneAndUpdate(
         { _id: paint._id },
-        { $set: { hitlineClasses } },
+        { $set: { mergedHitlineClasses } },
         { new: true }
       );
     } else {

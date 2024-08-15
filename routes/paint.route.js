@@ -15,7 +15,6 @@ router.post("/",
   upload.none(),
   async (req, res) => {
     const paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
-    console.log(paintArray);
     const response = await PaintController.storePaint({
       hitlineClasses: paintArray
     });
