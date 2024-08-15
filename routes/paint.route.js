@@ -16,11 +16,10 @@ router.post("/",
   async (req, res) => {
     const paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
     console.log(paintArray);
-    // const response = await PaintController.storePaint({
-    //   hitlineClasses: req.body.hitlineClasses
-    // });
-
-    return res.reply({ data: req.body });
+    const response = await PaintController.storePaint({
+      hitlineClasses: paintArray
+    });
+    return res.reply({ data: response });
   }
 );
 
