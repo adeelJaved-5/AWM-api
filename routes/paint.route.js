@@ -14,7 +14,8 @@ router.post("/",
   // validate(PaintValidator.paintUpdate),
   upload.none(),
   async (req, res) => {
-    console.log(req.body);
+    const paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
+    console.log(paintArray);
     // const response = await PaintController.storePaint({
     //   hitlineClasses: req.body.hitlineClasses
     // });
