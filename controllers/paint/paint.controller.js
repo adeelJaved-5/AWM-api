@@ -4,14 +4,15 @@ exports.storePaint = async ({ hitlineClasses }) => {
   try {
     let paint = await PaintModel.findOne();
     if (paint) {
-      const mergedHitlineClasses = [...new Set([...paint.hitlineClasses, ...hitlineClasses])];
-      paint = await PaintModel.findOneAndUpdate(
+      const mergedHitlineClasses = [...paint.hitlineClasses, ...hitlineClasses];
+      console.log(mergedHitlineClasses);
+      await PaintModel.findOneAndUpdate(
         { _id: paint._id },
-        { $set: { mergedHitlineClasses } },
+        { $set: { hitlineClasses: mergedHitlineClasses } },
         { new: true }
       );
     } else {
-      paint = new PaintModel({ hitlineClasses });
+     new PaintModel({ hitlineClasses });
       await paint.save();
     }
     return {status: "success", message: "Paint updated successfully"};
