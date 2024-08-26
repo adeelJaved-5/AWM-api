@@ -17,6 +17,7 @@ exports.storePaint = async ({ hitlineClasses }) => {
     }
     return {status: "success", message: "Paint updated successfully"};
   } catch (error) {
+    console.error('An error occurred while updating paint:', error);
     throw new Error(error);
   }
 };
