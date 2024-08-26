@@ -19,7 +19,7 @@ router.post("/",
       paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
     } catch (error) {
       console.log('error', error);
-      paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
+      paintArray = [];
     }
     const response = await PaintController.storePaint({
       hitlineClasses: paintArray
