@@ -5,7 +5,7 @@ exports.storePaint = async ({ hitlineClasses }) => {
     let paint = await PaintModel.findOne();
     if (paint) {
       const mergedHitlineClasses = [...paint.hitlineClasses, ...hitlineClasses];
-      console.log(mergedHitlineClasses);
+      console.log(mergedHitlineClasses.length);
       await PaintModel.findOneAndUpdate(
         { _id: paint._id },
         { $set: { hitlineClasses: mergedHitlineClasses } },
