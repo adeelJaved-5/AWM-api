@@ -14,8 +14,13 @@ router.post("/",
   // validate(PaintValidator.paintUpdate),
   upload.none(),
   async (req, res) => {
-    const paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
-    console.log(paintArray);
+    let paintArray = [];
+    try {
+      paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
+    } catch (error) {
+      console.log('error', error);
+      paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
+    }
     const response = await PaintController.storePaint({
       hitlineClasses: paintArray
     });
