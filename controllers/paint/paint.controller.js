@@ -1,31 +1,33 @@
-const { PaintModel } = require("../../models");
+const fs = require('fs');
+const path = require('path');
+
+const paintDataPath = path.join(__dirname, 'paintData.json');
+
+const readPaintData = () => {
+  if (!fs.existsSync(paintDataPath)) {
+    return null;
+  }
+
+  const data = fs.readFileSync(paintDataPath, 'utf-8');
+  return JSON.parse(data);
+};
+
+const writePaintData = (data) => {
+  fs.writeFileSync(paintDataPath, JSON.stringify(data, null, 2), 'utf-8');
+};
 
 exports.storePaint = async ({ hitlineClasses }) => {
   try {
-    // let paint = await PaintModel.findOne();
-    // if (paint) {
-    //   const mergedHitlineClasses = await [...paint.hitlineClasses, ...hitlineClasses];
-    //   console.log(mergedHitlineClasses.length);
-    //   await PaintModel.findOneAndUpdate(
-    //     { _id: paint._id },
-    //     { $set: { hitlineClasses: mergedHitlineClasses } },
-    //     { new: true }
-    //   );
-    // } else {
-    //  new PaintModel({ hitlineClasses });
-    //   await paint.save();
-    // }
-    const paint = await PaintModel.findOne({}, '_id');
+    let paint = readPaintData();
 
     if (paint) {
-      await PaintModel.updateOne(
-        { _id: paint._id },
-        { $addToSet: { hitlineClasses: { $each: hitlineClasses } } }
-      );
+      const mergedHitlineClasses = [...new Set([...paint.hitlineClasses, ...hitlineClasses])];
+      paint.hitlineClasses = mergedHitlineClasses;
     } else {
-      const newPaint = new PaintModel({ hitlineClasses });
-      await newPaint.save();
+      paint = { hitlineClasses };
     }
+
+    writePaintData(paint);
     return { status: "success", message: "Paint updated successfully" };
   } catch (error) {
     console.log('An error occurred while updating paint:', error);
@@ -35,9 +37,10 @@ exports.storePaint = async ({ hitlineClasses }) => {
 
 exports.getPaint = async () => {
   try {
-    const paint = await PaintModel.findOne();
+    const paint = readPaintData();
     return paint;
   } catch (error) {
+    console.log('An error occurred while retrieving paint:', error);
     throw new Error(error);
   }
 };

@@ -15,8 +15,8 @@ mongoose.set("strictQuery", false);
 mongoose.connect(MONGO_URL);
 
 app.use(cors());
-app.use(express.json({ limit: "100mb" }));
-app.use(express.urlencoded({ limit: "100mb", extended: false }));
+app.use(express.json({ limit: "200mb" }));
+app.use(express.urlencoded({ limit: "200mb", extended: false }));
 app.use(logger("dev"));
 app.use(
   express.urlencoded({
