@@ -6,7 +6,7 @@ const paintDataPath = path.join(__dirname, 'paintData.json');
 const readPaintData = async () => {
   try {
     await fs.access(paintDataPath); // Check if the file exists
-    const data = await fs.readFileSync(paintDataPath, 'utf-8');
+    const data = await fs.readFile(paintDataPath, 'utf-8');
     return JSON.parse(data);
   } catch (error) {
     // If the error is due to the file not existing, return null; otherwise, throw the error
@@ -20,7 +20,7 @@ const readPaintData = async () => {
 
 const writePaintData = async (data) => {
   try {
-    await fs.writeFileSync(paintDataPath, JSON.stringify(data, null, 2), 'utf-8');
+    await fs.writeFile(paintDataPath, JSON.stringify(data, null, 2), 'utf-8');
   } catch (error) {
     throw error;
   }
