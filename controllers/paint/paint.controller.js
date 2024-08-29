@@ -3,17 +3,17 @@ const path = require('path');
 
 const paintDataPath = path.join(__dirname, 'paintData.json');
 
-const readPaintData = async() => {
+const readPaintData = () => {
   if (!fs.existsSync(paintDataPath)) {
     return null;
   }
 
-  const data = await fs.readFileSync(paintDataPath, 'utf-8');
+  const data = fs.readFileSync(paintDataPath, 'utf-8');
   return JSON.parse(data);
 };
 
-const writePaintData = async(data) => {
-  await fs.writeFileSync(paintDataPath, JSON.stringify(data, null, 2), 'utf-8');
+const writePaintData = (data) => {
+  fs.writeFileSync(paintDataPath, JSON.stringify(data, null, 2), 'utf-8');
 };
 
 exports.storePaint = async ({ hitlineClasses }) => {
@@ -21,7 +21,7 @@ exports.storePaint = async ({ hitlineClasses }) => {
     let paint = readPaintData();
 
     if (paint) {
-      const mergedHitlineClasses = [...new Set([...paint.hitlineClasses, ...hitlineClasses])];
+      const mergedHitlineClasses = await [...paint.hitlineClasses, ...hitlineClasses];
       paint.hitlineClasses = mergedHitlineClasses;
     } else {
       paint = { hitlineClasses };
