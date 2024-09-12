@@ -5,29 +5,33 @@ const paintDataPath = path.join(__dirname, 'paintData.json');
 
 const readPaintData = () => {
   if (!fs.existsSync(paintDataPath)) {
-    return null;
+    return {};
   }
-
-  const data = fs.readFileSync(paintDataPath, 'utf-8');
-  return JSON.parse(data);
+  try {
+    const data = fs.readFileSync(paintDataPath, 'utf-8');
+    if (!data) {
+      return {};
+    }
+    return JSON.parse(data);
+  } catch (error) {
+    console.log('Error parsing JSON data:', error);
+    return {}; 
+  }
 };
+
 
 const writePaintData = (data) => {
   fs.writeFileSync(paintDataPath, JSON.stringify(data, null, 2), 'utf-8');
 };
 
-exports.storePaint = async ({ hitlineClasses }) => {
+exports.storePaint = async ({ id, hitlineClasses }) => {
   try {
-    let paint = readPaintData();
+    let paintData = readPaintData();
 
-    if (paint) {
-      const mergedHitlineClasses = await [...paint.hitlineClasses, ...hitlineClasses];
-      paint.hitlineClasses = mergedHitlineClasses;
-    } else {
-      paint = { hitlineClasses };
-    }
+    paintData[id] = { hitlineClasses };
 
-    await writePaintData(paint);
+    await writePaintData(paintData);
+
     return { status: "success", message: "Paint updated successfully" };
   } catch (error) {
     console.log('An error occurred while updating paint:', error);
@@ -35,10 +39,15 @@ exports.storePaint = async ({ hitlineClasses }) => {
   }
 };
 
-exports.getPaint = async () => {
+exports.getPaint = async (id) => {
   try {
-    const paint = await readPaintData();
-    return paint;
+    const paintData = await readPaintData();
+
+    if (paintData[id]) {
+      return paintData[id];
+    } else {
+      return { status: "error", message: "No paint found for the given ID" };
+    }
   } catch (error) {
     console.log('An error occurred while retrieving paint:', error);
     throw new Error(error);
