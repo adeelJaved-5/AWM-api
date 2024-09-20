@@ -53,3 +53,14 @@ exports.getPaint = async (id) => {
     throw new Error(error);
   }
 };
+
+exports.getAllPaintIds = async () => {
+  try {
+    const paintData = await readPaintData();
+
+    return Object.keys(paintData);
+  } catch (error) {
+    console.log('An error occurred while retrieving all paint ids:', error);
+    throw new Error(error);
+  }
+};

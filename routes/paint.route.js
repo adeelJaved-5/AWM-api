@@ -19,10 +19,17 @@ router.post("/",
   }
 );
 
-router.get("/:id",
+router.get("/getPaint/:id",
   async (req, res) => {
     const { id } = req.params;
     const response = await PaintController.getPaint(id);
+    return res.reply({ data: response });
+  }
+);
+
+router.get("/getAllPaintIds",
+  async (req, res) => {
+    const response = await PaintController.getAllPaintIds();
     return res.reply({ data: response });
   }
 );
