@@ -31,7 +31,6 @@ exports.storePaint = async ({ id, hitlineClasses }) => {
     let paintData = await readPaintData();
 
     paintData[id] = { hitlineClasses };
-    console.log(paintData);
 
     await writePaintData(paintData);
 
