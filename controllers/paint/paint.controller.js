@@ -3,26 +3,22 @@ const path = require('path');
 
 const paintDataPath = path.join(__dirname, 'paintData.json');
 
-const readPaintData = () => {
-  if (!fs.existsSync(paintDataPath)) {
-    return {};
-  }
+const readPaintData = async () => {
   try {
-    const data = fs.readFileSync(paintDataPath, 'utf-8');
-    if (!data) {
+    if (!await fs.promises.access(paintDataPath, fs.constants.F_OK).then(() => true).catch(() => false)) {
       return {};
     }
-    return JSON.parse(data);
+    const data = await fs.promises.readFile(paintDataPath, 'utf-8');
+    return data ? JSON.parse(data) : {};
   } catch (error) {
     console.log('Error parsing JSON data:', error);
-    return {}; 
+    return {};
   }
 };
 
-
 const writePaintData = async (data) => {
   try {
-    await fs.writeFileSync(paintDataPath, JSON.stringify(data, null, 2), 'utf-8');
+    await fs.promises.writeFile(paintDataPath, JSON.stringify(data, null, 2), 'utf-8');
   } catch (error) {
     console.log('Error writing paint data:', error);
     throw new Error(error);
