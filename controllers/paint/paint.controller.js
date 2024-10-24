@@ -18,8 +18,8 @@ const readPaintData = async () => {
 
 const writePaintData = async (data) => {
   try {
-    data = await JSON.stringify(data, null, 2)
-    await fs.promises.writeFile(paintDataPath, data, 'utf-8');
+    const jsonData = JSON.stringify(data, null, 2);
+    await fs.promises.writeFile(paintDataPath, jsonData, 'utf-8');
   } catch (error) {
     console.log('Error writing paint data:', error);
     throw new Error(error);
