@@ -49,25 +49,10 @@ exports.storePaint = async ({ hitlineClasses }) => {
 exports.getPaint = async (id) => {
   try {
     const paintData = await readPaintData();
-
-    if (paintData[id]) {
-      return paintData[id];
-    } else {
-      return { status: "error", message: "No paint found for the given ID" };
-    }
+    return paintData;
   } catch (error) {
     console.log('An error occurred while retrieving paint:', error);
     throw new Error(error);
   }
 };
 
-exports.getAllPaintIds = async () => {
-  try {
-    const paintData = await readPaintData();
-
-    return Object.keys(paintData);
-  } catch (error) {
-    console.log('An error occurred while retrieving all paint ids:', error);
-    throw new Error(error);
-  }
-};

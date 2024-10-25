@@ -32,17 +32,9 @@ router.post("/",
   }
 );
 
-router.get("/getPaint/:id",
+router.get("/",
   async (req, res) => {
-    const { id } = req.params;
-    const response = await PaintController.getPaint(id);
-    return res.reply({ data: response });
-  }
-);
-
-router.get("/getAllPaintIds",
-  async (req, res) => {
-    const response = await PaintController.getAllPaintIds();
+    const response = await PaintController.getPaint();
     return res.reply({ data: response });
   }
 );
