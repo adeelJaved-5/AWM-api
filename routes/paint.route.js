@@ -18,6 +18,7 @@ router.post("/",
   // validate(PaintValidator.paintUpdate),
   upload.none(),
   async (req, res) => {
+    console.log('req.body:', req.body);
     let paintArray = [];
     try {
       paintArray = Object.keys(req.body).map(key => JSON.parse(req.body[key]));
