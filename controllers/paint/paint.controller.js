@@ -26,11 +26,16 @@ const writePaintData = async (data) => {
   }
 };
 
-exports.storePaint = async ({ id, hitlineClasses }) => {
+exports.storePaint = async ({ hitlineClasses }) => {
   try {
     let paintData = await readPaintData();
 
-    paintData[id] = { hitlineClasses };
+    if (paintData) {
+      const mergedHitlineClasses = [...new Set([...paintData.hitlineClasses, ...hitlineClasses])];
+      paintData.hitlineClasses = mergedHitlineClasses;
+    } else {
+      paintData = { hitlineClasses };
+    }
 
     await writePaintData(paintData);
 
