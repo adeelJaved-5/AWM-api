@@ -56,3 +56,27 @@ exports.getPaint = async () => {
     throw new Error('Failed to retrieve paint data');
   }
 };
+
+exports.deletePaintKeys = async ({ keys }) => {
+  console.log(keys);
+  try {
+    let paintData = await readPaintData();
+    if (!paintData || !Array.isArray(paintData.hitlineClasses)) {
+      throw new Error("No valid hitlineClasses data found.");
+    }
+
+    const originalLength = paintData.hitlineClasses.length;
+    paintData.hitlineClasses = paintData.hitlineClasses.filter(item => !keys.includes(item.Key));
+
+    if (paintData.hitlineClasses.length === originalLength) {
+      throw new Error("None of the keys were found.");
+    }
+
+    await writePaintData(paintData);
+
+    return { status: "success", message: "Undo success" };
+  } catch (error) {
+    console.error('An error occurred while deleting paint keys:', error);
+    return { status: "error", message: "Undo Failed" };
+  }
+};

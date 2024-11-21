@@ -40,4 +40,11 @@ router.get("/",
   }
 );
 
+router.post("/deletePaintKeys",
+  async (req, res) => {
+    const response = await PaintController.deletePaintKeys({keys:req.body.keys});
+    return res.reply({ data: response });
+  }
+);
+
 module.exports = router;
